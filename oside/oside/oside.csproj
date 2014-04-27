@@ -51,8 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Emulators\EmulationCPU.cs" />
-    <Compile Include="Emulators\IEmulator.cs" />
+    <Compile Include="Emulators\Base\EmulationProcessor.cs" />
+    <Compile Include="Emulators\Base\EmulationRegister.cs" />
+    <Compile Include="Emulators\Base\IEmulator.cs" />
     <Compile Include="Compiler\StandardCompiler\CompileEntry.cs" />
     <Compile Include="Compiler\StandardCompiler\Compiler.cs" />
     <Compile Include="Compiler\StandardCompiler\CompilerOutput.cs" />

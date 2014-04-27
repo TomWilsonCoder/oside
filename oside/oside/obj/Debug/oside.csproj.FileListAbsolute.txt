@@ -17,3 +17,5 @@ C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\About.resources
 C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\oside.Properties.Resources.resources
 C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\processLink.exe
 C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\processLink.pdb
+C:\Users\TappaTekie\Desktop\oside - Copy (2)\oside\obj\Debug\oside.exe
+C:\Users\TappaTekie\Desktop\oside - Copy (2)\oside\obj\Debug\oside.pdb

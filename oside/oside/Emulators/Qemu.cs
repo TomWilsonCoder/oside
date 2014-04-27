@@ -111,9 +111,6 @@ public sealed class QemuEmulator : IEmulator {
         //success
         standardOutput("Qemu Emulator version " + versionMajor + "." + versionMinor);
         standardOutput("Qemu Emulator ready...");
-
-
-        GetProcessors();
     }
     public bool Running {
         get {
@@ -152,7 +149,7 @@ public sealed class QemuEmulator : IEmulator {
     }
     #endregion
 
-    public EmulationCPU[] GetProcessors() { 
+    public EmulationProcessor[] GetProcessors() { 
         //get the JSON array which contains all the processors
         //running in the emulation.
         monitorExecute("query-cpus", null);
@@ -161,10 +158,10 @@ public sealed class QemuEmulator : IEmulator {
         JSONObject[] children = processors.ChildValues[0].ChildValues;
         
         //read the JSON object into an EmulationCPU object array
-        EmulationCPU[] buffer = new EmulationCPU[children.Length];
+        EmulationProcessor[] buffer = new EmulationProcessor[children.Length];
         for (int c = 0; c < buffer.Length; c++) {
             JSONObject obj = children[c];
-            buffer[c] = new EmulationCPU(
+            buffer[c] = new EmulationProcessor(
                 Convert.ToInt32(obj["cpu"]),
                 Convert.ToBoolean(obj["current"]),
                 Convert.ToInt64(obj["pc"]),
@@ -174,9 +171,9 @@ public sealed class QemuEmulator : IEmulator {
         }
         return buffer;
     }
-    public void UpdateProcessor(ref EmulationCPU processor) {
+    public void UpdateProcessor(ref EmulationProcessor processor) {
         //get the current state of all processors
-        EmulationCPU[] processors = GetProcessors();
+        EmulationProcessor[] processors = GetProcessors();
 
         //look for the processor to update in the 
         //list of processors we just got.
@@ -186,6 +183,49 @@ public sealed class QemuEmulator : IEmulator {
                 break;
             }
         }
+    }
+
+    public EmulationRegister[] GetRegisters(EmulationProcessor processor) {
+        //get all the registers assigned to the processor
+        monitorExecute("human-monitor-command", new string[][] { 
+            new string[] { "command-line", "info registers" },
+            new string[] { "cpu-index", processor.Index.ToString() }
+        });
+        JSONObject registers = JSONObject.Decode(monitorRead())[0];
+
+        //get the string which contains the raw register data returned 
+        //from Qemu
+        string raw = registers["return"].ToString();
+        raw = raw.Replace("\\r", "").Replace("\\n", " ");
+
+        //we assume that each register is seperated by a space.
+        string[] split = raw.Split(' ');
+
+        //iterate over the register strings
+        EmulationRegister[] buffer = new EmulationRegister[0];
+        for (int c = 0; c < split.Length; c++) {
+            string entry = split[c];
+
+            //don't know what the [...] bit means yet.
+            if (entry.StartsWith("[")) { continue; }
+
+            //get the register name and value string
+            string[] eSplit = entry.Split('=');
+            if (eSplit.Length != 2) { continue; }
+            string name = eSplit[0];
+            string value = eSplit[1];
+            if (name.Replace(" ", "").Length == 0) { continue; }
+            if (value.Length == 0) { value = "0"; }
+
+            //add the register to the return buffer
+            //(we convert the value string from hex to a 64bit int)
+            Helpers.AddObject(ref buffer,
+                new EmulationRegister(
+                    name,
+                    Convert.ToInt64(value, 16)));
+        }
+
+        return buffer;
     }
 
     #region Helpers
@@ -200,8 +240,23 @@ public sealed class QemuEmulator : IEmulator {
         if (arguments != null) {
             for(int c = 0; c < arguments.Length; c++){
                 string[] s = arguments[c];
+
+                //write the name
+                argumentFlat += "\"" + s[0] + "\":";
+
+                //is the value a string or an integer?
+                long tmp;
+                bool isInt = long.TryParse(s[1], out tmp);
+
+                //write the value
                 argumentFlat +=
-                    "\"" + s[0] + "\":\"" + s[1] + "\"" + (c == arguments.Length - 1 ? "" : ",");
+                    (isInt ? "" : "\"") +
+                    s[1] +
+                    (isInt ? "" : "\"");
+
+
+                if (c != arguments.Length - 1) { argumentFlat += ","; }
+
             }
             if (arguments.Length != 0) {
                 argumentFlat = ",\"arguments\":{" + argumentFlat + "}";
