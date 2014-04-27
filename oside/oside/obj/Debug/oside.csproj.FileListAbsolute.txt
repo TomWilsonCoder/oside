@@ -1,0 +1,19 @@
+C:\Users\TappaTekie\Documents\Visual Studio 2008\Projects\oside\oside\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\TappaTekie\Documents\Visual Studio 2008\Projects\oside\oside\bin\Debug\oside.exe
+C:\Users\TappaTekie\Documents\Visual Studio 2008\Projects\oside\oside\bin\Debug\oside.pdb
+C:\Users\TappaTekie\Documents\Visual Studio 2008\Projects\oside\oside\obj\Debug\oside.exe
+C:\Users\TappaTekie\Documents\Visual Studio 2008\Projects\oside\oside\obj\Debug\oside.pdb
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\oside.exe
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\oside.pdb
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\oside.exe
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\oside.pdb
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\Splash.resources
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\oside.csproj.GenerateResource.Cache
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\Input.resources
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\syntaxbox.dll
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\syntaxbox.pdb
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\About.resources
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Debug\oside.Properties.Resources.resources
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\processLink.exe
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\processLink.pdb

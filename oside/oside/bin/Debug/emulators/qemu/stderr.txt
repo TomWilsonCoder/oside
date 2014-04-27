@@ -1,0 +1,13 @@
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\emulators\qemu\qemu.exe: pci_add_option_rom: failed to find romfile "pxe-e1000.bin"
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(0)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(1)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(1)
+/home/stefan/src/qemu/repo.or.cz/qemu/ar7/hw/ps2.c:280 ps2_keyboard_set_translation(1)

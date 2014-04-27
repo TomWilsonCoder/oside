@@ -1,0 +1,12 @@
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Release\ResolveAssemblyReference.cache
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Release\Input.resources
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Release\Splash.resources
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Release\oside.csproj.GenerateResource.Cache
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Release\oside.exe
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Release\oside.pdb
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Release\syntaxbox.dll
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Release\oside.exe
+C:\Users\TappaTekie\Desktop\oside\oside\obj\Release\oside.pdb
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\oside.exe
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\oside.pdb
+C:\Users\TappaTekie\Desktop\oside\oside\bin\Debug\syntaxbox.dll

@@ -1,0 +1,14 @@
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\MDIDemo.EditForm.resources
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\MDIDemo.LanguageForm.resources
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\MDIDemo.MDIParent.resources
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\MDIDemo.Properties.Resources.resources
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\MDIDemo.SettingsForm.resources
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\MDIDemo.Style.resources
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\MDIDemo.csproj.GenerateResource.Cache
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\bin\Debug\SyntaxBoxMDIDemo.exe
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\bin\Debug\SyntaxBoxMDIDemo.pdb
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\SyntaxBoxMDIDemo.exe
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\obj\Debug\SyntaxBoxMDIDemo.pdb
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\bin\Debug\syntaxbox.dll
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\MdiDemo\bin\Debug\syntaxbox.pdb

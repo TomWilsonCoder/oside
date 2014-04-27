@@ -1,0 +1,10 @@
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\bin\Debug\HelloWorld.exe
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\bin\Debug\HelloWorld.pdb
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\bin\Debug\Puzzle.SyntaxBox.NET3.5.dll
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\bin\Debug\Puzzle.SyntaxBox.NET3.5.pdb
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\obj\Debug\HelloWorld.Form1.resources
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\obj\Debug\HelloWorld.Properties.Resources.resources
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\obj\Debug\HelloWorld.csproj.GenerateResource.Cache
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\obj\Debug\HelloWorld.exe
+C:\Users\TappaTekie\Desktop\oside\SyntaxBox\Samples\HelloWorld\obj\Debug\HelloWorld.pdb

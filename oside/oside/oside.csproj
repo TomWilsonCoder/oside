@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{08B63D4C-83A6-4A52-A7D7-D044ECABCC29}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>oside</RootNamespace>
+    <AssemblyName>oside</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <ApplicationIcon>oside icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Emulators\EmulationCPU.cs" />
+    <Compile Include="Emulators\IEmulator.cs" />
+    <Compile Include="Compiler\StandardCompiler\CompileEntry.cs" />
+    <Compile Include="Compiler\StandardCompiler\Compiler.cs" />
+    <Compile Include="Compiler\StandardCompiler\CompilerOutput.cs" />
+    <Compile Include="Controls\OutputWindow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emulators\Qemu.cs" />
+    <Compile Include="JSONObject.cs" />
+    <Compile Include="StandardOutputCallback.cs" />
+    <Compile Include="Compiler\Interfaces\ICompileOutputEntry.cs" />
+    <Compile Include="Compiler\Interfaces\ICompiler.cs" />
+    <Compile Include="Compiler\Interfaces\ICompilerOutput.cs" />
+    <Compile Include="Controls\DockableControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SolutionBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TextEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Enums\IDEViewState.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="Icons.cs" />
+    <Compile Include="Init.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RuntimeState.cs" />
+    <Compile Include="Solution\Project\Directory.cs" />
+    <Compile Include="Solution\Project\Entity.cs" />
+    <Compile Include="Solution\Project\Enums\FileType.cs" />
+    <Compile Include="Solution\Project\File.cs" />
+    <Compile Include="Solution\Project\Project.cs" />
+    <Compile Include="Solution\Project\Enums\Type.cs" />
+    <Compile Include="Solution\Solution.cs" />
+    <Compile Include="Windows\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddProjectItem.cs" />
+    <Compile Include="Windows\Input.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Input.Designer.cs">
+      <DependentUpon>Input.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainIDE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Splash.Designer.cs">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Input.resx">
+      <DependentUpon>Input.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Splash.resx">
+      <DependentUpon>Splash.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\processLink\processLink.csproj">
+      <Project>{B5C46A44-6320-4143-8BDE-0132D37DF9D2}</Project>
+      <Name>processLink</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyntaxBox\Alsing.SyntaxBox\syntaxbox.csproj">
+      <Project>{19EF75B2-B414-4EB0-9486-160FAF93E62C}</Project>
+      <Name>syntaxbox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="oside icon.ico" />
+  </ItemGroup>
+</Project>
