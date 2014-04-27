@@ -39,9 +39,9 @@ partial class Splash
         this.inReleaseLbl.ForeColor = System.Drawing.Color.White;
         this.inReleaseLbl.Location = new System.Drawing.Point(12, 9);
         this.inReleaseLbl.Name = "inReleaseLbl";
-        this.inReleaseLbl.Size = new System.Drawing.Size(266, 36);
+        this.inReleaseLbl.Size = new System.Drawing.Size(308, 36);
         this.inReleaseLbl.TabIndex = 0;
-        this.inReleaseLbl.Text = "For internal use only";
+        this.inReleaseLbl.Text = "OS Development Studio\r\n";
         // 
         // buildLbl
         // 

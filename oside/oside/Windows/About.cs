@@ -34,13 +34,13 @@ public partial class About : Form {
         titleLbl.Text = "OS Development Studio";
         mainLbl.Text =
                 "Version: " + FileVersionInfo.GetVersionInfo(Process.GetCurrentProcess().Modules[0].FileName).ProductVersion + "\n" +
-                "Build: " + Init.CurrentBuild + "\n\n" +
+                "Build: " + Init.CurrentBuild + "\n\n";/* +
 
                 "This product is for INTERNAL USE only and not intended in ANY WAY\n" +
                 "to be a commercial product. Any distributions made to the public WILL\n" + 
                 "result in termination of contract/employment/enrollment and possible\n" + 
                 "civil or criminal penalties under the maximum extent of the law.";
-
+                */
         //vertically center the labels
         mainLbl.Location = new Point(
             mainLbl.Location.X,

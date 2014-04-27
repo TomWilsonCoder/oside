@@ -111,6 +111,10 @@ public sealed class QemuEmulator : IEmulator {
         //success
         standardOutput("Qemu Emulator version " + versionMajor + "." + versionMinor);
         standardOutput("Qemu Emulator ready...");
+
+
+
+        new DebugRegisters(this).ShowDialog();
     }
     public bool Running {
         get {
@@ -185,7 +189,7 @@ public sealed class QemuEmulator : IEmulator {
         }
     }
 
-    public EmulationRegister[] GetRegisters(EmulationProcessor processor) {
+    public EmulationRegisterCollection GetRegisters(EmulationProcessor processor) {
         //get all the registers assigned to the processor
         monitorExecute("human-monitor-command", new string[][] { 
             new string[] { "command-line", "info registers" },
@@ -225,7 +229,7 @@ public sealed class QemuEmulator : IEmulator {
                     Convert.ToInt64(value, 16)));
         }
 
-        return buffer;
+        return new EmulationRegisterCollection(buffer);
     }
 
     #region Helpers

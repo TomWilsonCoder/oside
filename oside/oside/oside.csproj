@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emulators\Base\EmulationRegisterCollection.cs" />
     <Compile Include="Emulators\Base\EmulationProcessor.cs" />
     <Compile Include="Emulators\Base\EmulationRegister.cs" />
     <Compile Include="Emulators\Base\IEmulator.cs" />
@@ -99,6 +100,9 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\AddProjectItem.cs" />
+    <Compile Include="Windows\Debugging\DebugRegisters.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Windows\Input.cs">
       <SubType>Form</SubType>
     </Compile>
