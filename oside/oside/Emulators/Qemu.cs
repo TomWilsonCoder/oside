@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.IO;
+using System.Threading;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -11,6 +12,7 @@ public sealed class QemuEmulator : IEmulator {
     private Socket p_Socket;
     private NetworkStream p_Stream;
     private bool p_Suspended;
+    private object p_SyncLock = new object();
 
     public QemuEmulator(string diskImage) {
         p_DiskImage = diskImage;
@@ -114,7 +116,7 @@ public sealed class QemuEmulator : IEmulator {
 
 
 
-        new DebugRegisters(this).ShowDialog();
+        new DebugRegisters(this).Show();
     }
     public bool Running {
         get {
@@ -142,18 +144,24 @@ public sealed class QemuEmulator : IEmulator {
 
     public bool Suspended { get { return p_Suspended; } }
     public void Suspend() {
+        Monitor.Enter(p_SyncLock);
         monitorExecuteCmd("stop");
         monitorRead();
         p_Suspended = true;
+        Monitor.Exit(p_SyncLock);
     }
     public void Resume() {
+        Monitor.Enter(p_SyncLock);
         monitorExecuteCmd("cont");
         monitorRead();
         p_Suspended = false;
+        Monitor.Exit(p_SyncLock);
     }
     #endregion
 
-    public EmulationProcessor[] GetProcessors() { 
+    public EmulationProcessor[] GetProcessors() {
+        Monitor.Enter(p_SyncLock);
+
         //get the JSON array which contains all the processors
         //running in the emulation.
         monitorExecute("query-cpus", null);
@@ -173,6 +181,8 @@ public sealed class QemuEmulator : IEmulator {
 
 
         }
+
+        Monitor.Exit(p_SyncLock);
         return buffer;
     }
     public void UpdateProcessor(ref EmulationProcessor processor) {
@@ -190,6 +200,8 @@ public sealed class QemuEmulator : IEmulator {
     }
 
     public EmulationRegisterCollection GetRegisters(EmulationProcessor processor) {
+        Monitor.Enter(p_SyncLock);
+
         //get all the registers assigned to the processor
         monitorExecute("human-monitor-command", new string[][] { 
             new string[] { "command-line", "info registers" },
@@ -229,6 +241,7 @@ public sealed class QemuEmulator : IEmulator {
                     Convert.ToInt64(value, 16)));
         }
 
+        Monitor.Exit(p_SyncLock);
         return new EmulationRegisterCollection(buffer);
     }
 
