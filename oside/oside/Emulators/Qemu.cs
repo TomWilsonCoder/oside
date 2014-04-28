@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 using System.Diagnostics;
@@ -139,7 +139,7 @@ public sealed class QemuEmulator : IEmulator {
             Console.WriteLine((Environment.TickCount - time) + "ms");
         }
 
-        new DebugRegisters(this).ShowDialog();
+        new DebugRegisters(this).Show();
     }
     public bool Running {
         get {
