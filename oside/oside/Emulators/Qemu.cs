@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -11,6 +12,7 @@ public sealed class QemuEmulator : IEmulator {
     private Socket p_Socket;
     private NetworkStream p_Stream;
     private bool p_Suspended;
+    private object p_SyncLock = new object();
 
     public QemuEmulator(string diskImage) {
         p_DiskImage = diskImage;
@@ -74,7 +76,7 @@ public sealed class QemuEmulator : IEmulator {
         while (Environment.TickCount < connectStart + 1000) {
             try { 
                 p_Socket.Connect("localhost", 4444);
-                p_Stream = new NetworkStream(p_Socket);
+                p_Stream = new NetworkStream(p_Socket, true);
                 break;
             }
             catch { }
@@ -108,11 +110,34 @@ public sealed class QemuEmulator : IEmulator {
             return;
         }
 
+        //create an event listener
+        standardOutput("Starting event listener...");
+        Thread eventListener = new Thread(new ThreadStart(delegate {
+            while (Running) {
+                //send a blank signal to the server so we don't interfere
+                //with current messages.
+                Monitor.Enter(p_SyncLock);
+                monitorExecute("", null);
+                monitorReadObject(false);
+                Monitor.Exit(p_SyncLock);
+
+                Thread.Sleep(100);
+            }
+        }));
+        eventListener.Start();
+        standardOutput("  Listening...");
+
         //success
         standardOutput("Qemu Emulator version " + versionMajor + "." + versionMinor);
         standardOutput("Qemu Emulator ready...");
 
-
+        return;
+        EmulationProcessor ps = GetProcessors()[0];
+        while (true) {
+            int time = Environment.TickCount;
+            GetRegisters(ps);
+            Console.WriteLine((Environment.TickCount - time) + "ms");
+        }
 
         new DebugRegisters(this).ShowDialog();
     }
@@ -138,26 +163,43 @@ public sealed class QemuEmulator : IEmulator {
         p_Stream = null;
         p_QemuProcess = null;
         p_Process = null;
+
+        //trigger the event
+        if (Shutdown != null) {
+            Shutdown(this, null);
+        }
+    }
+    public void Restart() {
+        Monitor.Enter(p_SyncLock);
+        monitorExecute("system_reset", null);
+        monitorReadObject(false);
+        Monitor.Exit(p_SyncLock);
     }
 
     public bool Suspended { get { return p_Suspended; } }
     public void Suspend() {
+        Monitor.Enter(p_SyncLock);
         monitorExecuteCmd("stop");
-        monitorRead();
+        monitorReadObject(false);
         p_Suspended = true;
+        Monitor.Exit(p_SyncLock);
     }
     public void Resume() {
+        Monitor.Enter(p_SyncLock);
         monitorExecuteCmd("cont");
-        monitorRead();
+        monitorReadObject(false);
         p_Suspended = false;
+        Monitor.Exit(p_SyncLock);
     }
     #endregion
 
-    public EmulationProcessor[] GetProcessors() { 
+    public EmulationProcessor[] GetProcessors() {
+        Monitor.Enter(p_SyncLock);
+
         //get the JSON array which contains all the processors
         //running in the emulation.
         monitorExecute("query-cpus", null);
-        JSONObject processors = JSONObject.Decode(monitorRead())[0];
+        JSONObject processors = monitorReadObject(true)[0];
         processors = (JSONObject)processors["return"];
         JSONObject[] children = processors.ChildValues[0].ChildValues;
         
@@ -173,6 +215,8 @@ public sealed class QemuEmulator : IEmulator {
 
 
         }
+
+        Monitor.Exit(p_SyncLock);
         return buffer;
     }
     public void UpdateProcessor(ref EmulationProcessor processor) {
@@ -190,12 +234,14 @@ public sealed class QemuEmulator : IEmulator {
     }
 
     public EmulationRegisterCollection GetRegisters(EmulationProcessor processor) {
+        Monitor.Enter(p_SyncLock);
+
         //get all the registers assigned to the processor
         monitorExecute("human-monitor-command", new string[][] { 
             new string[] { "command-line", "info registers" },
             new string[] { "cpu-index", processor.Index.ToString() }
         });
-        JSONObject registers = JSONObject.Decode(monitorRead())[0];
+        JSONObject registers = monitorReadObject(true)[0];
 
         //get the string which contains the raw register data returned 
         //from Qemu
@@ -223,16 +269,36 @@ public sealed class QemuEmulator : IEmulator {
 
             //add the register to the return buffer
             //(we convert the value string from hex to a 64bit int)
-            Helpers.AddObject(ref buffer,
-                new EmulationRegister(
-                    name,
-                    Convert.ToInt64(value, 16)));
+            try {
+                Helpers.AddObject(ref buffer,
+                    new EmulationRegister(
+                        name,
+                        Convert.ToInt64(value, 16)));
+            }
+            catch { }
         }
 
+        Monitor.Exit(p_SyncLock);
         return new EmulationRegisterCollection(buffer);
     }
 
     #region Helpers
+
+    private JSONObject[] monitorReadObject(bool expectedReturn) {
+        JSONObject[] obj = JSONObject.Decode(monitorRead());
+
+        //is it an event?
+        if (obj.Length != 0 && obj[0]["event"] != null) {
+            handleEvent(obj[0]);
+
+            //re-call this function to get the data 
+            //the caller expects.
+            if (!expectedReturn) { return null; }
+            return monitorReadObject(true);
+        }
+        return obj;
+    }
+
     private void monitorExecuteCmd(string command) {
         monitorExecute("human-monitor-command", new string[][] { 
             new string[] { "command-line", command }
@@ -277,17 +343,56 @@ public sealed class QemuEmulator : IEmulator {
             message.Length);
     }
     private string monitorRead() {
-        string buffer = "";
+        string strBuffer = "";
 
+        //wait for data to become available
         while (!p_Stream.DataAvailable) ;
-        while (p_Stream.DataAvailable ) {
-            byte[] read = new byte[1];
-            p_Socket.Receive(read);
-            buffer += (char)read[0];
+
+        while (true ) {
+            int available = p_Socket.Available;
+
+            //if there is no data available, give it some time
+            //to send more data
+            if (available == 0) {
+                int destTime = Environment.TickCount + 20;
+                while (Environment.TickCount < destTime) {
+                    if ((available = p_Socket.Available) != 0) { break; }
+                }
+                if (available == 0) { break; }
+            }
+
+            //read into a buffer
+            byte[] buffer = new byte[available];
+            p_Stream.Read(buffer, 0, available);
+
+            //write the buffer to the return string
+            strBuffer += System.Text.Encoding.ASCII.GetString(buffer);
         }
 
-        return buffer;
+        return strBuffer;
     }
+    #endregion
+
+    #region Events
+    private void handleEvent(JSONObject obj) { 
+        //get the event name
+        string name = obj["event"].ToString();
+
+        //get the data
+        JSONObject[] data = (JSONObject[])obj["data"];
+
+        //trigger the event associated with the event name
+        switch (name.ToLower()) {
+            case "reset": if (Reset == null) { break; } Reset(this, null); break;
+            case "stop": if (Paused == null) { break; } Paused(this, null); break;
+            case "resume": if (Resumed == null) { break; } Resumed(this, null); break;
+        }
+    }
+
+    public event EmulatorEventHandler<object> Reset;
+    public event EmulatorEventHandler<object> Paused;
+    public event EmulatorEventHandler<object> Resumed;
+    public event EmulatorEventHandler<object> Shutdown;
     #endregion
 
 }
